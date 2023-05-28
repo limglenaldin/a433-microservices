@@ -1,0 +1,18 @@
+version: '3.7'
+services:
+  item-app:
+    container_name: item-app                 # Mengatur nama container menjadi item-app
+    image: ghcr.io/limglenaldin/item-app:v1 # Menggunakan image yang diupload ke github package
+    ports:
+      - 80:8080                             # Mengekspos port 8080 dari jaringan internal container ke port 80 di jaringan host
+    restart: always                         # Container akan selalu restart ketika terhenti
+    depends_on:                             # Container akan berjalan setelah container yang ada dalam list berjalan
+      - item-db
+  item-db:
+    container_name: item-db                 # Mengatur nama container menjadi item-db
+    image: mongo:3                          # Menggunakan image MongoDB 3
+    volumes:
+      - app-db:/data/db                     # Memakai volume bernama "app-db" yang dibinding ke container pada path /data/db
+    restart: always                         # Container akan selalu restart ketika terhenti
+volumes:
+  app-db:                                   # Membuat volume baru
