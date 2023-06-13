@@ -1,39 +1,39 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
+apiVersion: apps/v1       # Set apiVersion to apps/v1
+kind: Deployment          # Set kind to Deployment
+metadata:                 # Set metadata for this manifest
   name: karsajobs-service
   labels:
     app: karsajobs-app
     tier: service
-spec:
-  replicas: 1
-  selector:
+spec:                     # Define the spec of this manifest
+  replicas: 1             # Set replica of pod to 1
+  selector:               # Set selector for this deployment
     matchLabels:
       tier: service
-  template:
-    metadata:
+  template:               # Define the template for this deployment
+    metadata:             # Set metadata for the template
       labels:
         app: karsajobs-app
         tier: service
-    spec:
+    spec:                 # Define the spec for the template
       containers:
-        - name: karsajobs
-          image: ghcr.io/limglenaldin/karsajobs:latest
-          imagePullPolicy: IfNotPresent
-          ports:
+        - name: karsajobs                                # Set pod name
+          image: ghcr.io/limglenaldin/karsajobs:latest   # Define image source name
+          imagePullPolicy: IfNotPresent                  # Image will be pull when not present
+          ports:                                         # Set exposed port
           - containerPort: 8080
-          env:
+          env:                                           # Set env vars for the pod
           - name: APP_PORT
             value: "8080"
           - name: MONGO_HOST
             value: "karsajobs-db"
           - name: MONGO_USER
             valueFrom:
-              secretKeyRef:
+              secretKeyRef:                             # The value will be get from Secret object
                 name: karsajobs-db-creds
                 key: MONGO_ROOT_USERNAME
           - name: MONGO_PASS
             valueFrom:
-              secretKeyRef:
+              secretKeyRef:                             # The value will be get from Secret object
                 name: karsajobs-db-creds
                 key: MONGO_ROOT_PASSWORD

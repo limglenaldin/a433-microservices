@@ -1,28 +1,28 @@
-apiVersion: v1
-kind: PersistentVolume
-metadata:
+apiVersion: v1                    # Set apiVersion to v1
+kind: PersistentVolume            # Set kind to Statefulset
+metadata:                         # Set metadata for this manifest
   name: mongodb-pv
   labels:
     type: local
-spec:
-  storageClassName: manual
-  capacity:
+spec:                             # Define the spec of this manifest
+  storageClassName: manual        # Set StorageClass name to manual
+  capacity:                       # Set volume capacity
     storage: 5Gi
-  accessModes:
+  accessModes:                    # Set volume access mode
     - ReadWriteOnce
-  hostPath:
+  hostPath:                       # Set volume path
     path: "/data/db"
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
+apiVersion: v1                    # Set apiVersion to v1
+kind: PersistentVolumeClaim       # Set kind to Statefulset
+metadata:                         # Set metadata for this manifest
   name: mongodb-pv-claim
   labels:
     app: karsajobs-app
-spec:
-  storageClassName: manual
-  accessModes:
+spec:                           # Define the spec of this manifest
+  storageClassName: manual      # Set StorageClass name to manual
+  accessModes:                  # Set volume claim access mode
     - ReadWriteOnce
   resources:
     requests:
-      storage: 5Gi
+      storage: 5Gi              # Set volume claim storage

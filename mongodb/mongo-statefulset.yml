@@ -1,36 +1,36 @@
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
+apiVersion: apps/v1           # Set apiVersion to apps/v1
+kind: StatefulSet             # Set kind to Statefulset
+metadata:                     # Set metadata for this manifest
   name: karsajobs-db
   labels:
     app: karsajobs-app
-spec:
-  selector:
+spec:                         # Define the spec of this manifest
+  replicas: 1                 # Set replica of pod to 1
+  selector:                   # Set selector for this deployment
     matchLabels:
       app: karsajobs-app
       tier: data
-  serviceName: karsajobs-db
-  replicas: 1
+  serviceName: karsajobs-db   # Set Service name
   minReadySeconds: 10
-  template:
-    metadata:
+  template:                   # Define the template for this deployment
+    metadata:                 # Set metadata for the template
       labels:
         app: karsajobs-app
         tier: data
-    spec:
+    spec:                     # Define the spec for the template
       terminationGracePeriodSeconds: 10
       containers:
-      - name: karsajobs-db
-        image: mongo
-        env:
+      - name: karsajobs-db                                    # Set pod name
+        image: mongo                                          # Define image source name
+        env:                                                  # Set env vars for the pod
         - name: MONGO_INITDB_ROOT_USERNAME_FILE
           value: /etc/mongo-credentials/MONGO_ROOT_USERNAME
         - name: MONGO_INITDB_ROOT_PASSWORD_FILE
           value: /etc/mongo-credentials/MONGO_ROOT_PASSWORD
-        ports:
+        ports:                                                # Set exposed port
         - containerPort: 27017 
           name: mongo
-        volumeMounts:
+        volumeMounts:                                         # Define the mount path
         - name: mongo-persistent-storage
           mountPath: /data/db
         - name: mongo-config
@@ -39,16 +39,16 @@ spec:
         - name: mongo-secret
           mountPath: /etc/mongo-credentials
           readOnly: true
-      volumes:
-        - name: mongo-persistent-storage
+      volumes:                                                # Define the volume for the template
+        - name: mongo-persistent-storage                      # Define for PV-PVC
           persistentVolumeClaim:
             claimName: mongodb-pv-claim
-        - name: mongo-config
+        - name: mongo-config                                  # Define for ConfigMap Volume
           configMap:
             name: mongo-config
             items:
               - key: mongo.conf
                 path: mongo.conf
-        - name: mongo-secret
+        - name: mongo-secret                                  # Define for Secret Volume
           secret:
             secretName: karsajobs-db-creds

@@ -1,27 +1,27 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
+apiVersion: apps/v1       # Set apiVersion to apps/v1
+kind: Deployment          # Set kind to Deployment
+metadata:                 # Set metadata for this manifest
   name: karsajobs-ui
   labels:
     app: karsajobs-app
     tier: frontend
-spec:
-  replicas: 1
-  selector:
+spec:                     # Define the spec of this manifest
+  replicas: 1             # Set replica of pod to 1
+  selector:               # Set selector for this deployment
     matchLabels:
       tier: frontend
-  template:
-    metadata:
+  template:               # Define the template for this deployment
+    metadata:             # Set metadata for the template
       labels:
         app: karsajobs-app
         tier: frontend
-    spec:
+    spec:                 # Define the spec for the template
       containers:
-        - name: karsajobs-ui
-          image: ghcr.io/limglenaldin/karsajobs-ui:latest
-          imagePullPolicy: IfNotPresent
-          ports:
+        - name: karsajobs-ui                                # Set pod name
+          image: ghcr.io/limglenaldin/karsajobs-ui:latest   # Define image source name
+          imagePullPolicy: IfNotPresent                     # Image will be pull when not present
+          ports:                                            # Set exposed port
           - containerPort: 8080
-          env:
+          env:                                              # Set env vars for the pod
           - name: VUE_APP_BACKEND
             value: http://127.0.0.1:35079
