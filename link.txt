@@ -1,0 +1,5 @@
+karsajobs image
+https://github.com/users/limglenaldin/packages/container/package/karsajobs
+
+karsajobs-ui image
+https://github.com/users/limglenaldin/packages/container/package/karsajobs-ui
