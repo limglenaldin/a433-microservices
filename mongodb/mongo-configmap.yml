@@ -1,0 +1,8 @@
+apiVersion: v1                # Set apiVersion to v1
+kind: ConfigMap               # Set kind to ConfigMap
+metadata:                     # Set metadata for this manifest
+  name: mongo-config
+data:                         # Define the data
+  mongo.conf: |               # Set data behavior as mongo.conf
+    storage:
+      dbPath: /data/db

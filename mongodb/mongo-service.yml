@@ -1,0 +1,14 @@
+apiVersion: v1              # Set apiVersion to v1
+kind: Service               # Set kind to Service
+metadata:                   # Set metadata for this manifest
+  name: karsajobs-db
+  labels:
+    app: karsajobs-app
+spec:                       # Define the spec of this manifest
+  selector:                 # Define the selector of this manifest
+    app: karsajobs-app
+    tier: data
+  ports:                    # Define the ports of this manifest
+  - port: 27017             # Use the default port of mongoDB
+    name: mongo             # Set name as mongo
+  clusterIP: None           # Set the service type to ClusterIP

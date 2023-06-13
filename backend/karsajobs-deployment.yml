@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: karsajobs-service
+  labels:
+    app: karsajobs-app
+    tier: service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: service
+  template:
+    metadata:
+      labels:
+        app: karsajobs-app
+        tier: service
+    spec:
+      containers:
+        - name: karsajobs
+          image: ghcr.io/limglenaldin/karsajobs:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 8080
+          env:
+          - name: APP_PORT
+            value: "8080"
+          - name: MONGO_HOST
+            value: "karsajobs-db"
+          - name: MONGO_USER
+            valueFrom:
+              secretKeyRef:
+                name: karsajobs-db-creds
+                key: MONGO_ROOT_USERNAME
+          - name: MONGO_PASS
+            valueFrom:
+              secretKeyRef:
+                name: karsajobs-db-creds
+                key: MONGO_ROOT_PASSWORD
