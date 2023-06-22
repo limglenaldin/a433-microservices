@@ -1,0 +1,27 @@
+apiVersion: apps/v1       # Set apiVersion to apps/v1
+kind: Deployment          # Set kind to Deployment
+metadata:                 # Set metadata for this manifest
+  name: ecom-shipping
+  labels:
+    app: ecom-app
+    tier: service
+spec:                     # Define the spec of this manifest
+  replicas: 1             # Set replica of pod to 1
+  selector:               # Set selector for this deployment
+    matchLabels:
+      tier: service
+  template:               # Define the template for this deployment
+    metadata:             # Set metadata for the template
+      labels:
+        app: ecom-app
+        tier: service
+    spec:                 # Define the spec for the template
+      containers:
+        - name: shipping                                 # Set pod name
+          image: ghcr.io/limglenaldin/shipping:latest    # Define image source name
+          imagePullPolicy: IfNotPresent                  # Image will be pull when not present
+          ports:                                         # Set exposed port
+          - containerPort: 3001
+          env:                                           # Set env vars for the pod
+          - name: AMQP_URL
+            value: "amqp://user:ILGImbdOmu@10.244.0.32:5672/"
